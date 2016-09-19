@@ -14,7 +14,6 @@ import {
 const NOTIFICATION_ID                = 'connection.status';
 
 const CONNECTION_RETRY_DELAY_SECONDS = 15;
-const CONNECTION_MAX_RETRIES         = 10;
 let retryCount = 0;
 
 let reconnections = 0;
@@ -92,10 +91,6 @@ const connectWS = (config, store) => {
                 status:    NOTIFICATION_STATUS_WARNING,
                 ttl:       -1
             });
-        } else if (retryCount === CONNECTION_MAX_RETRIES) {
-            ConnectionStatusActions.failed(retryCount);
-            NotificationsActions.update(NOTIFICATION_ID, { status: NOTIFICATION_STATUS_ERROR });
-            return;
         }
 
         ConnectionStatusActions.delaying(retryCount, CONNECTION_RETRY_DELAY_SECONDS);
